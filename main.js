@@ -20,7 +20,8 @@ animate();
 
 function init() {
     camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 0.25, 50 );
-    camera.position.y = -10;
+    camera.position.z = 10;
+    camera.position.y = 3;
 
     scene = new THREE.Scene();
 
@@ -94,6 +95,57 @@ function init() {
     material = new THREE.MeshToonMaterial( { color: 0xff110 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
+
+    // Pilar
+    var pillarVertices = new Float32Array( [ 
+        0.0, 0.0,  0.05, // v0
+        0.1, 0.0,  0.0, // v1
+        0.1, 0.4,  0.0, // v2
+        0.0, 0.4,  0.05, // v3
+        -0.05, 0.2, 0.075, // v4
+        0.0, 0.0,  -0.05, // v5 = v0 backside
+        0.0, 0.4,  -0.05, // v6 = v3 backside
+        -0.05, 0.2, -0.075, // v7 = v4 backside
+    ] );
+
+    // regla de la mano derecha
+    var indices = [
+        // front
+        0, 1, 2,
+        2, 3, 0,
+        0, 3, 4,
+
+        // back
+        1, 5, 2,
+        6, 2, 5,
+        6, 5, 7,
+
+        // bottom lid
+        1, 0, 5,
+
+        // top lid
+        3, 2, 6,
+
+        // side top cover
+        5, 0, 4,
+        5, 4, 7,
+
+        // side bottom cover
+        3, 6, 4,
+        4, 6, 7,
+    ];
+
+    var pillarGeometry = new THREE.BufferGeometry();
+    pillarGeometry.setIndex(indices);
+    pillarGeometry.setAttribute('position',new THREE.BufferAttribute(pillarVertices, 3));
+    material = new THREE.MeshToonMaterial( { color: 0x606060 } );
+    var mesh = new THREE.Mesh(pillarGeometry, material);
+    
+    // Translate, rotate y group.add las veces que se repita el pilar
+    pillarGeometry.rotateY(-Math.PI / 2);
+    pillarGeometry.translate(0.1, -1.8, 1.85);
+    group.add(mesh);
+
 
     // EVENTS
 
