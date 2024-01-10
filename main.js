@@ -46,25 +46,42 @@ function init() {
     var height = 1;                   
     var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2)
-    geometry.scale(1.2,1.3,1.3)
+    geometry.scale(1.3,1.3,1.3)
+    geometry.translate(0.1,0.1,0.1)
     // geometry.rotateY(Math.PI)
     var material = new THREE.MeshToonMaterial( { color: 0x78787 } );
     var cube = new THREE.Mesh( geometry, material );
     group.add( cube );
 
-    geometry = new THREE.BoxGeometry(2.1,0.05,2.1); // la terraza baja
-    geometry.translate(-0.1,-1.4,0.7);
+    geometry = new THREE.BoxGeometry(2.3,0.05,2.3); // Terraza baja
+    geometry.translate(-0.15,-1.4,0.9);
     material = new THREE.MeshToonMaterial( { color: 0x787878 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
     
-    geometry = new THREE.BoxGeometry(1.7,0.2,1.7); // la planta baja
-    geometry.translate(-0.1,-1.5,0.7);
+    geometry = new THREE.BoxGeometry(1.9,0.2,1.9); // 1er piso
+    geometry.translate(-0.15,-1.5,0.85);
     material = new THREE.MeshToonMaterial( { color: 0x00278 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
+    geometry = new THREE.BoxGeometry(1.9,0.2,1.9); // Planta baja
+    geometry.translate(-0.15,-1.5,0.85);
+    material = new THREE.MeshToonMaterial( { color: 0x00278 } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
 
+    geometry = new THREE.ConeGeometry(0.45,0.15,3,1) // Tragaluz
+    geometry.translate(-0.75,-1.3,0.85)
+    material = new THREE.MeshToonMaterial( { color: 0xff1000 } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.7,0.01,0.55); // Piscina
+    geometry.translate(-0.65,-1.37,1.6)
+    material = new THREE.MeshToonMaterial( { color: 0xff110 } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
 
     // EVENTS
 
