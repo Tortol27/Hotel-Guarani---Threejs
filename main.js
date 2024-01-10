@@ -20,7 +20,7 @@ animate();
 
 function init() {
     camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 0.25, 50 );
-    camera.position.z = 10;
+    camera.position.y = -10;
 
     scene = new THREE.Scene();
 
@@ -65,9 +65,21 @@ function init() {
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
-    geometry = new THREE.BoxGeometry(1.9,0.2,1.9); // Planta baja
-    geometry.translate(-0.15,-1.5,0.85);
-    material = new THREE.MeshToonMaterial( { color: 0x00278 } );
+    geometry = new THREE.BoxGeometry(1.1,0.2,0.8); // Planta baja central
+    geometry.translate(0.13,-1.7,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xaa0078 } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.4,0.2,0.8); // Planta baja izq
+    geometry.translate(-0.78,-1.7,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xffffff } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(1.9,0.2,0.46); // Planta baja fondo
+    geometry.translate(-0.15,-1.7,0.13);
+    material = new THREE.MeshToonMaterial( { color: 0x00bc78 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
