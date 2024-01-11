@@ -41,6 +41,7 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
+    // Habitaciones
     var A = new THREE.Vector3( 0, 1, 0.2);
     var B = new THREE.Vector3( 0.6, 0, 0.2 );
     var C = new THREE.Vector3( -0.6, 0, 0.2 );
@@ -48,11 +49,26 @@ function init() {
     var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2)
     geometry.scale(1.3,1.3,1.3)
-    geometry.translate(0.1,0.1,0.1)
+    geometry.translate(0.1,0.2,0.1)
     // geometry.rotateY(Math.PI)
     var material = new THREE.MeshToonMaterial( { color: 0x78787 } );
     var cube = new THREE.Mesh( geometry, material );
     group.add( cube );
+
+    // Bases Habitaciones
+    var A = new THREE.Vector3( 0, 0.9, 0.2);
+    var B = new THREE.Vector3( 0.5, 0, 0.2 );
+    var C = new THREE.Vector3( -0.5, 0, 0.2 );
+    var height = 0.1;                   
+    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.3,1.3,1.3)
+    geometry.translate(0.1,-1.1,0.15)
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0xFFBF00 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
 
     geometry = new THREE.BoxGeometry(2.3,0.05,2.3); // Terraza baja
     geometry.translate(-0.15,-1.4,0.9);
