@@ -96,7 +96,7 @@ function init() {
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
-    // Pilar
+    // Pilares
     var pillarVertices = new Float32Array( [ 
         0.0, 0.0,  0.05, // v0
         0.1, 0.0,  0.0, // v1
@@ -143,9 +143,36 @@ function init() {
     
     // Translate, rotate y group.add las veces que se repita el pilar
     pillarGeometry.rotateY(-Math.PI / 2);
-    pillarGeometry.translate(0.1, -1.8, 1.85);
-    group.add(mesh);
+    pillarGeometry.translate(0.7, -1.8, 1.85);
+    // group.add(mesh);
 
+    var pilares = new THREE.Group();
+    pilares.add(mesh);
+    for (let i = 0; i<6; i++){
+        var mesh2 = mesh.clone();
+        mesh2.translateX(-i/3);
+        // group.add(mesh2);
+        pilares.add(mesh2);
+    }
+    var pilarLadoDer = pilares.clone();
+    pilarLadoDer.rotateY(Math.PI/2);
+    pilarLadoDer.translateX(-0.75);
+    pilarLadoDer.translateZ(-1);
+    pilares.add(pilarLadoDer);
+    
+    var pilarAtras = pilarLadoDer.clone();
+    pilarAtras.rotateY(Math.PI/2);
+    pilarAtras.translateX(-0.75);
+    pilarAtras.translateZ(-0.95);
+    pilares.add(pilarAtras);
+
+    var pilarLadoIzq = pilarAtras.clone();
+    pilarLadoIzq.rotateY(Math.PI/2);
+    pilarLadoIzq.translateX(-0.75);
+    pilarLadoIzq.translateZ(-0.95);
+    pilares.add(pilarLadoIzq);
+    
+    scene.add(pilares);
 
     // EVENTS
 
