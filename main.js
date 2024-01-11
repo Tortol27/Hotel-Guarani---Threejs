@@ -41,48 +41,22 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    // Habitaciones
-    var A = new THREE.Vector3( 0, 1, 0.2);
-    var B = new THREE.Vector3( 0.6, 0, 0.2 );
-    var C = new THREE.Vector3( -0.6, 0, 0.2 );
-    var height = 1;                   
-    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
-    geometry.rotateX(Math.PI/2)
-    geometry.scale(1.3,1.3,1.3)
-    geometry.translate(0.1,0.2,0.1)
-    // geometry.rotateY(Math.PI)
-    var material = new THREE.MeshToonMaterial( { color: 0x78787 } );
-    var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
-
-    // Bases Habitaciones
-    var A = new THREE.Vector3( 0, 0.9, 0.2);
-    var B = new THREE.Vector3( 0.5, 0, 0.2 );
-    var C = new THREE.Vector3( -0.5, 0, 0.2 );
-    var height = 0.1;                   
-    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
-    geometry.rotateX(Math.PI/2)
-    geometry.scale(1.3,1.3,1.3)
-    geometry.translate(0.1,-1.1,0.15)
-    // geometry.rotateY(Math.PI)
-    var material = new THREE.MeshToonMaterial( { color: 0xFFBF00 } );
-    var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
-
-
-    geometry = new THREE.BoxGeometry(2.3,0.05,2.3); // Terraza baja
+    // Terraza
+    geometry = new THREE.BoxGeometry(2.3,0.05,2.3);
     geometry.translate(-0.15,-1.4,0.9);
     material = new THREE.MeshToonMaterial( { color: 0x787878 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
     
-    geometry = new THREE.BoxGeometry(1.9,0.2,1.9); // 1er piso
+    // 1er piso
+    geometry = new THREE.BoxGeometry(1.9,0.2,1.9);
     geometry.translate(-0.15,-1.5,0.85);
     material = new THREE.MeshToonMaterial( { color: 0x00278 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
-    geometry = new THREE.BoxGeometry(1.1,0.2,0.8); // Planta baja central
+    // Planta baja central
+    geometry = new THREE.BoxGeometry(1.1,0.2,0.8); 
     geometry.translate(0.13,-1.7,0.9);
     material = new THREE.MeshToonMaterial( { color: 0xaa0078 } );
     cube = new THREE.Mesh(geometry, material);
@@ -189,6 +163,50 @@ function init() {
     pilares.add(pilarLadoIzq);
     
     scene.add(pilares);
+
+
+    // Habitaciones
+    var A = new THREE.Vector3( 0, 1, 0.2);
+    var B = new THREE.Vector3( 0.6, 0, 0.2 );
+    var C = new THREE.Vector3( -0.6, 0, 0.2 );
+    var height = 1;                   
+    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.35,1.35,1.35)
+    geometry.translate(0.1,0.29,0.1)
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0x78787 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    // Bases Habitaciones
+    var A = new THREE.Vector3( 0, 0.9, 0.2);
+    var B = new THREE.Vector3( 0.5, 0, 0.2 );
+    var C = new THREE.Vector3( -0.5, 0, 0.2 );
+    var height = 0.15;                   
+    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2);
+    geometry.scale(1.25,1.25,1.25);
+    geometry.translate(0.1,-1.05,0.15);
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0xFFBF00 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    // Pilares de Habitaciones
+    var pilaresH = new THREE.Group();
+    var pilar = new THREE.BufferGeometry();
+    pilar.setIndex(indices);
+    pilar.setAttribute('position',new THREE.BufferAttribute(pillarVertices, 3));
+    material = new THREE.MeshToonMaterial( { color: 0xe36895 } );
+    var meshH = new THREE.Mesh(pilar, material);
+    pilaresH.add(meshH);
+    pilaresH.scale.set(0.8, 0.8,0.8);
+    pilaresH.rotateY(2*Math.PI/5);
+    pilaresH.position.set(-1.43, 0.062,1.35);
+
+    scene.add(pilaresH);
+
 
     // EVENTS
 
