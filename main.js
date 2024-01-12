@@ -287,10 +287,8 @@ function animate() {
 function render() {
 
     const timer = Date.now() * 0.000025;
-
-    particleLight.position.x = Math.sin( timer * 7 ) * 3;
-    particleLight.position.y = Math.cos( timer * 5 ) * 4;
-    particleLight.position.z = Math.cos( timer * 3 ) * 3;
+    particleLight.position.x = 4 * Math.sin( timer * 2 );
+    particleLight.position.y = 4 * Math.cos( timer * 2 );
 
     // for ( let i = 0; i < group.children.length; i ++ ) {
 
