@@ -253,6 +253,62 @@ function init() {
     }
     scene.add(pilaresH);
 
+    // Un piso
+    // Parte Ventana
+    var A1 = new THREE.Vector3(0.1, 0.833, 0.2 );
+    var A2 = new THREE.Vector3(-0.1, 0.833,0.2 );
+    var B1 = new THREE.Vector3(0.5,0.167, 0.2 );
+    var B2 = new THREE.Vector3(0.4, 0, 0.2 );
+    var C1 = new THREE.Vector3(-0.5, 0.167, 0.2 );
+    var C2 = new THREE.Vector3(-0.4 ,0, 0.2 );
+    var height = 0.1;                   
+    var geometry = new PrismGeometry( [ A1, B1,B2,C2,C1,A2 ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.35,1.35,1.35)
+    geometry.translate(2.1,0.29,0.1)
+    var material = new THREE.MeshToonMaterial( { color: 0x7ea0a6 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    // Parte piso y balconcitos
+    var A = new THREE.Vector3( 0, 1, 0.2);
+    var B = new THREE.Vector3( 0.6, 0, 0.2 );
+    var C = new THREE.Vector3( -0.6, 0, 0.2 );
+    var height = 0.02;                   
+    var geometry = new PrismGeometry( [ A1, B, C,A2 ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.35,1.35,1.35)
+    geometry.translate(2.1,0.155,0.1)
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0xf55d7b } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    // Punta de vidrio
+    var A = new THREE.Vector3( 0, 1, 0.2);
+    var height = 0.12;                   
+    var geometry = new PrismGeometry( [ A, A1,A2 ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.35,1.35,1.35)
+    geometry.translate(2.1,0.29,0.1)
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0x3dd3eb } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    var geometry = new THREE.BoxGeometry(0.4,0.165,0.05); // Parte rectangular de atras
+    geometry.translate(2.1,0.207,0.1);
+    material = new THREE.MeshToonMaterial( { color: 0xb0171c } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
+    // Piso
+    geometry = new THREE.BoxGeometry(5,0.00001,5);
+    geometry.translate(-0.15,-1.81,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xed7621 } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
     // EVENTS
 
     const controls = new OrbitControls( camera, renderer.domElement );
