@@ -75,7 +75,7 @@ function init() {
     group.add(cube);
 
     geometry = new THREE.ConeGeometry(0.45,0.15,3,1) // Tragaluz
-    geometry.translate(-0.75,-1.3,0.85)
+    geometry.translate(-0.85,-1.3,0.85)
     material = new THREE.MeshToonMaterial( { color: 0xff1000 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
@@ -193,20 +193,65 @@ function init() {
     var cube = new THREE.Mesh( geometry, material );
     group.add( cube );
 
+    var A = new THREE.Vector3( 0.2, 0.7, 0.2);
+    var B = new THREE.Vector3( 0.5, 0, 0.2 );
+    var C = new THREE.Vector3( -0.5, 0, 0.2 );
+    var D = new THREE.Vector3(-0.2,0.7,0.2);
+    var height = 0.16;                   
+    var geometry = new PrismGeometry( [ A, B, C, D ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2);
+    // geometry.scale(1.05,1.05,1.05);
+    geometry.translate(0.1,-1.2,0.17);
+    var material = new THREE.MeshToonMaterial( { color: 0x78e667 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add( cube );
+
+    var geometry = new THREE.BoxGeometry(0.4,0.35,0.1); // Base rectangular de atras
+    geometry.translate(0.08,-1.23,0.15);
+    material = new THREE.MeshToonMaterial( { color: 0xb0171c } );
+    cube = new THREE.Mesh(geometry, material);
+    group.add(cube);
+
     // Pilares de Habitaciones
+    
     var pilaresH = new THREE.Group();
     var pilar = new THREE.BufferGeometry();
     pilar.setIndex(indices);
     pilar.setAttribute('position',new THREE.BufferAttribute(pillarVertices, 3));
     material = new THREE.MeshToonMaterial( { color: 0xe36895 } );
     var meshH = new THREE.Mesh(pilar, material);
-    pilaresH.add(meshH);
     pilaresH.scale.set(0.8, 0.8,0.8);
-    pilaresH.rotateY(2*Math.PI/5);
-    pilaresH.position.set(-1.43, 0.062,1.35);
+    pilaresH.rotateY(1.064);
+    pilaresH.position.set(-1.43, 0.062,1.05);
+    pilaresH.add(meshH);
 
+    for (let i = 0; i<5; i++){
+        var mesh2 = meshH.clone();
+        mesh2.translateX(2*i/5);
+        pilaresH.add(mesh2);
+    }
+    
+    for (let i = 0; i<5; i++){
+        var mesh2 = meshH.clone();
+        mesh2.rotateOnAxis(new THREE.Vector3(0,1,0),Math.PI);
+        mesh2.rotateY(1.0136);
+        mesh2.translateZ(-3.34);
+        mesh2.translateX(0.43);
+        mesh2.translateX(-2*i/5);
+        pilaresH.add(mesh2);
+    }
+
+    for (let i = 0; i<5; i++){
+        var mesh2 = meshH.clone();
+        mesh2.rotateY(Math.PI);
+        mesh2.rotateY(-1.064);
+        mesh2.translateX(-3.4);
+        mesh2.translateZ(-0.7);
+        if (i == 2) continue;
+        mesh2.translateX(2*i/5);
+        pilaresH.add(mesh2);
+    }
     scene.add(pilaresH);
-
 
     // EVENTS
 
