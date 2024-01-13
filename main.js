@@ -75,13 +75,13 @@ function init() {
     group.add(cube);
 
     geometry = new THREE.ConeGeometry(0.45,0.15,3,1) // Tragaluz
-    geometry.translate(-0.85,-1.3,0.85)
+    geometry.translate(-0.85,-1.3,0.85);
     material = new THREE.MeshToonMaterial( { color: 0xff1000 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
 
     geometry = new THREE.BoxGeometry(0.7,0.01,0.55); // Piscina
-    geometry.translate(-0.65,-1.37,1.6)
+    geometry.translate(-0.65,-1.37,1.6);
     material = new THREE.MeshToonMaterial( { color: 0xff110 } );
     cube = new THREE.Mesh(geometry, material);
     group.add(cube);
@@ -165,20 +165,7 @@ function init() {
     scene.add(pilares);
 
 
-    // Habitaciones
-    var A = new THREE.Vector3( 0, 1, 0.2);
-    var B = new THREE.Vector3( 0.6, 0, 0.2 );
-    var C = new THREE.Vector3( -0.6, 0, 0.2 );
-    var height = 1;                   
-    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
-    geometry.rotateX(Math.PI/2)
-    geometry.scale(1.35,1.35,1.35)
-    geometry.translate(0.1,0.29,0.1)
-    // geometry.rotateY(Math.PI)
-    var material = new THREE.MeshToonMaterial( { color: 0x78787 } );
-    var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
-
+    // Edificio de Habitaciones (Prisma Triangular)
     // Bases Habitaciones
     var A = new THREE.Vector3( 0, 0.9, 0.2);
     var B = new THREE.Vector3( 0.5, 0, 0.2 );
@@ -254,6 +241,7 @@ function init() {
     scene.add(pilaresH);
 
     // Un piso
+    var piso = new THREE.Group();
     // Parte Ventana
     var A1 = new THREE.Vector3(0.1, 0.833, 0.2 );
     var A2 = new THREE.Vector3(-0.1, 0.833,0.2 );
@@ -268,7 +256,7 @@ function init() {
     geometry.translate(2.1,0.29,0.1)
     var material = new THREE.MeshToonMaterial( { color: 0x7ea0a6 } );
     var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
+    piso.add( cube );
 
     // Parte piso y balconcitos
     var A = new THREE.Vector3( 0, 1, 0.2);
@@ -276,33 +264,75 @@ function init() {
     var C = new THREE.Vector3( -0.6, 0, 0.2 );
     var height = 0.02;                   
     var geometry = new PrismGeometry( [ A1, B, C,A2 ], height ); // utilizo para crear el prisma rectangular
-    geometry.rotateX(Math.PI/2)
-    geometry.scale(1.35,1.35,1.35)
-    geometry.translate(2.1,0.155,0.1)
+    geometry.rotateX(Math.PI/2);
+    geometry.scale(1.35,1.35,1.35);
+    geometry.translate(2.1,0.155,0.1);
     // geometry.rotateY(Math.PI)
-    var material = new THREE.MeshToonMaterial( { color: 0xf55d7b } );
+    var material = new THREE.MeshToonMaterial( { color: 0xe0b9b6 } );
     var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
+    piso.add( cube );
 
     // Punta de vidrio
     var A = new THREE.Vector3( 0, 1, 0.2);
     var height = 0.12;                   
     var geometry = new PrismGeometry( [ A, A1,A2 ], height ); // utilizo para crear el prisma rectangular
-    geometry.rotateX(Math.PI/2)
-    geometry.scale(1.35,1.35,1.35)
-    geometry.translate(2.1,0.29,0.1)
+    geometry.rotateX(Math.PI/2);
+    geometry.scale(1.35,1.35,1.35);
+    geometry.translate(2.1,0.29,0.1);
     // geometry.rotateY(Math.PI)
     var material = new THREE.MeshToonMaterial( { color: 0x3dd3eb } );
     var cube = new THREE.Mesh( geometry, material );
-    group.add( cube );
+    piso.add( cube );
 
     var geometry = new THREE.BoxGeometry(0.4,0.165,0.05); // Parte rectangular de atras
     geometry.translate(2.1,0.207,0.1);
     material = new THREE.MeshToonMaterial( { color: 0xb0171c } );
     cube = new THREE.Mesh(geometry, material);
-    group.add(cube);
+    piso.add(cube);
 
-    // Piso
+    // Mutiplicar pisos
+    piso.position.set(-2,-1.19,-0.01)
+    var pisos = new THREE.Group();
+    pisos.add(piso);
+
+    for (let i =0 ; i<9; i++){
+        var piso2 = piso.clone();
+        piso2.translateY(i*0.15);
+        pisos.add(piso2);
+    }
+    scene.add(pisos);
+
+    // Techo
+    var A = new THREE.Vector3( 0, 1, 0.2);
+    var B = new THREE.Vector3( 0.6, 0, 0.2 );
+    var C = new THREE.Vector3( -0.6, 0, 0.2 );
+    var height = 0.03;                   
+    var geometry = new PrismGeometry( [ A, B, C], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2);
+    geometry.scale(1.35,1.35,1.35);
+    geometry.translate(0.1,0.342,0.1);
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0x1ee664 } );
+    var cube = new THREE.Mesh( geometry, material );
+    var cube2 = cube.clone();
+    cube2.translateY(0.14);
+    group.add( cube );
+    group.add( cube2 );
+
+    var A = new THREE.Vector3( 0, 1, 0.2);
+    var B = new THREE.Vector3( 0.6, 0, 0.2 );
+    var C = new THREE.Vector3( -0.6, 0, 0.2 );
+    var height = 0.12;                   
+    var geometry = new PrismGeometry( [ A, B, C], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1,1,1);
+    geometry.translate(0.1,0.45,0.2);
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0xe6e047 } );
+    var cube = new THREE.Mesh( geometry, material );
+    group.add(cube)
+
+    // Calle
     geometry = new THREE.BoxGeometry(5,0.00001,5);
     geometry.translate(-0.15,-1.81,0.9);
     material = new THREE.MeshToonMaterial( { color: 0xed7621 } );
