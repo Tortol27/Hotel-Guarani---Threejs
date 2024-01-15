@@ -217,11 +217,11 @@ function init() {
     var A = new THREE.Vector3( 0, 0.9, 0.2);
     var B = new THREE.Vector3( 0.5, 0, 0.2 );
     var C = new THREE.Vector3( -0.5, 0, 0.2 );
-    var height = 0.08;                   
+    var height = 0.081;                   
     var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2);
     geometry.scale(1.25,1.25,1.25);
-    geometry.translate(0.1,-1.05,0.15);
+    geometry.translate(0.1,-1.055,0.15);
     // geometry.rotateY(Math.PI)
     var material = new THREE.MeshToonMaterial( { color: 0x3b5178, map: textureCemento } );
     material.shading = THREE.SmoothShading;
@@ -236,7 +236,7 @@ function init() {
     var height = 0.035;                   
     var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2);
-    geometry.scale(1.25,1.25,1.25);
+    geometry.scale(1.25,1.255,1.25);
     geometry.translate(0.1,-1.155,0.15);
     // geometry.rotateY(Math.PI)
     var material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
@@ -518,7 +518,7 @@ function init() {
         } );
         model.scale.set(0.03, 0.03, 0.03)
         model.translateX(0.6)
-        model.translateY(-1.37)
+        model.translateY(-1.5)
         model.translateZ(1.4)
         model.rotateY(-Math.PI/2);
         scene.add(model)
@@ -552,6 +552,7 @@ function animate() {
     requestAnimationFrame( animate );
         if (animacionDaffy){
         daffy.position.x += 0.001*dir;
+        daffy.position.y = -1.37;
         if (daffy.position.x <= 0.4){
             dir = 1;
         }
@@ -585,7 +586,9 @@ function onDocumentKeyDown(event) {
     let key = event.key;
     switch (key) {
       case "d":
-        animacionDaffy = !animacionDaffy
+        animacionDaffy = !animacionDaffy;
+        daffy.position.x = 0.6;
+        daffy.position.y = -1.5;
         break
     }
   }
