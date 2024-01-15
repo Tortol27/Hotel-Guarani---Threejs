@@ -11,3 +11,6 @@ No requiere ninguna dependencia
 ## Utilizacion
 Right Click & Drag -> Rotar la camara
 Left Click & Drag -> Mover la posicion de la camara
+
+s --> Toggle movimiento del sol
+d --> Toggle animacion Daffy Duck

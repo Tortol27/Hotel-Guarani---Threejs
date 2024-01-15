@@ -15,7 +15,7 @@ let a = -3000;
 let particleLight;
 let group; 
 let daffy;
-let animacionDaffy = false;
+let animacionDaffy = false, moveSun= true;
 var dir = -1;
 
 init();
@@ -484,7 +484,7 @@ function init() {
         const model = gltf.scene
         carpa = gltf.scene
         gltf.scene.traverse( function( node ) {
-            if ( node.isMesh ) { node.castShadow = true; }
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.1, 0.1, 0.1)
         model.translateX(0.6)
@@ -511,10 +511,10 @@ function init() {
     // let daffy;
     loader = new GLTFLoader();
     loader.load('models/daffy/scene.gltf', function (gltf) {
-        const model = gltf.scene
-        daffy = gltf.scene
+        const model = gltf.scene;
+        daffy = gltf.scene;
         gltf.scene.traverse( function( node ) {
-            if ( node.isMesh ) { node.castShadow = true; }
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.03, 0.03, 0.03)
         model.translateX(0.6)
@@ -569,12 +569,14 @@ function animate() {
 
 function render() {
 
-    var timer = a * 0.00025;
-    particleLight.position.x = 17 * Math.sin( timer * 2 );
-    particleLight.position.y = 17 * Math.cos( timer * 2 );
-    a+= 1;
-    if (a >= 3000){
-        a = a*-1;
+    if (moveSun){
+        var timer = a * 0.00025;
+        particleLight.position.x = 17 * Math.sin( timer * 2 );
+        particleLight.position.y = 17 * Math.cos( timer * 2 );
+        a+= 1;
+        if (a >= 3000){
+            a = a*-1;
+        }
     }
     renderer.render( scene, camera );
 
@@ -585,10 +587,13 @@ function onDocumentKeyDown(event) {
     let paso = 0.1
     let key = event.key;
     switch (key) {
-      case "d":
-        animacionDaffy = !animacionDaffy;
-        daffy.position.x = 0.6;
-        daffy.position.y = -1.5;
-        break
+        case 's':
+            moveSun = !moveSun;
+            break;
+        case "d":
+            animacionDaffy = !animacionDaffy;
+            daffy.position.x = 0.6;
+            daffy.position.y = -1.5;
+            break;
     }
   }
