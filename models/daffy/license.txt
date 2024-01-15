@@ -1,0 +1,11 @@
+Model Information:
+* title:	Daffy Duck
+* source:	https://sketchfab.com/3d-models/daffy-duck-57b3d5631e4649da907977353aece0c8
+* author:	SteveTheDragon (https://sketchfab.com/SteveTheDragon)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Daffy Duck" (https://sketchfab.com/3d-models/daffy-duck-57b3d5631e4649da907977353aece0c8) by SteveTheDragon (https://sketchfab.com/SteveTheDragon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

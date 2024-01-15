@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Clase Prisma
 class PrismGeometry extends THREE.ExtrudeGeometry {
@@ -23,6 +24,7 @@ function init() {
     camera.position.y = 3;
 
     scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x99d6f0);
 
     group = new THREE.Group();
     scene.add( group );
@@ -35,7 +37,7 @@ function init() {
     scene.add( particleLight );
     var light = new THREE.DirectionalLight( 0xffffff, 4 );
     light.castShadow = true;
-    // particleLight.add( new THREE.PointLight( 0xffffff, 90 ) );
+    light.shadow.radius = 25;
     particleLight.add (light);
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -66,7 +68,7 @@ function init() {
     // 1er piso
     geometry = new THREE.BoxGeometry(1.9,0.2,1.9);
     geometry.translate(-0.15,-1.5,0.85);
-    material = new THREE.MeshToonMaterial( { color: 0x00278 } );
+    material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
@@ -76,7 +78,7 @@ function init() {
     // Planta baja central
     geometry = new THREE.BoxGeometry(1.1,0.2,0.8); 
     geometry.translate(0.13,-1.7,0.9);
-    material = new THREE.MeshToonMaterial( { color: 0xaa0078 } );
+    material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
@@ -85,7 +87,7 @@ function init() {
 
     geometry = new THREE.BoxGeometry(0.4,0.2,0.8); // Planta baja izq
     geometry.translate(-0.78,-1.7,0.9);
-    material = new THREE.MeshToonMaterial( { color: 0xffffff } );
+    material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
@@ -94,7 +96,7 @@ function init() {
 
     geometry = new THREE.BoxGeometry(1.9,0.2,0.46); // Planta baja fondo
     geometry.translate(-0.15,-1.7,0.13);
-    material = new THREE.MeshToonMaterial( { color: 0x00bc78 } );
+    material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
@@ -211,13 +213,29 @@ function init() {
     var A = new THREE.Vector3( 0, 0.9, 0.2);
     var B = new THREE.Vector3( 0.5, 0, 0.2 );
     var C = new THREE.Vector3( -0.5, 0, 0.2 );
-    var height = 0.15;                   
+    var height = 0.08;                   
     var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2);
     geometry.scale(1.25,1.25,1.25);
     geometry.translate(0.1,-1.05,0.15);
     // geometry.rotateY(Math.PI)
-    var material = new THREE.MeshToonMaterial( { color: 0xFFBF00 } );
+    var material = new THREE.MeshToonMaterial( { color: 0x3b5178, map: textureCemento } );
+    material.shading = THREE.SmoothShading;
+    var cube = new THREE.Mesh( geometry, material );
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add( cube );
+
+    var A = new THREE.Vector3( 0, 0.9, 0.2);
+    var B = new THREE.Vector3( 0.5, 0, 0.2 );
+    var C = new THREE.Vector3( -0.5, 0, 0.2 );
+    var height = 0.035;                   
+    var geometry = new PrismGeometry( [ A, B, C ], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2);
+    geometry.scale(1.25,1.25,1.25);
+    geometry.translate(0.1,-1.155,0.15);
+    // geometry.rotateY(Math.PI)
+    var material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     var cube = new THREE.Mesh( geometry, material );
     cube.receiveShadow = true;
@@ -372,6 +390,19 @@ function init() {
     cube.receiveShadow = true;
     cube.castShadow = true;
     piso.add(cube);
+    
+    var geometry = new THREE.BoxGeometry(0.3,0.07,0.01); // Ventana de atras
+    geometry.translate(2.1,0.24,0.079);
+    const textureVidrio3 = new THREE.TextureLoader().load('textures/glass.jpg' );
+    textureVidrio3.wrapS = THREE.RepeatWrapping;
+    textureVidrio3.wrapT = THREE.RepeatWrapping;
+    textureVidrio3.repeat.x = 2;
+    material = new THREE.MeshToonMaterial( { color: 0x3dd3eb, map: textureVidrio3 } );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    piso.add(cube);
 
     // Mutiplicar pisos
     piso.position.set(-2,-1.19,-0.01)
@@ -412,7 +443,18 @@ function init() {
     geometry.rotateX(Math.PI/2)
     geometry.scale(1,1,1);
     geometry.translate(0.1,0.45,0.2);
-    var material = new THREE.MeshToonMaterial( { color: 0xe6e047 } );
+    var material = new THREE.MeshToonMaterial( { color: 0xBCBDB7, map: textureCemento } );
+    material.shading = THREE.SmoothShading;
+    var cube = new THREE.Mesh( geometry, material );
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube)
+
+    var geometry = new PrismGeometry( [ A, B1, C1,], height ); // utilizo para crear el prisma rectangular
+    geometry.rotateX(Math.PI/2)
+    geometry.scale(1.1,1.1,1.1);
+    geometry.translate(0.1,0.45,0.2);
+    var material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio } );
     material.shading = THREE.SmoothShading;
     var cube = new THREE.Mesh( geometry, material );
     cube.receiveShadow = true;
@@ -428,6 +470,56 @@ function init() {
     cube.receiveShadow = true;
     // cube.castShadow = true;
     group.add(cube);
+
+    // Modelos 3D
+
+    // This work is based on "Carpa Playera - beach tent" (https://sketchfab.com/3d-models/carpa-playera-beach-tent-ffdd0519fa604e138d88a0c7fa262bb8) by Harold.Llanos (https://sketchfab.com/Harold.Llanos) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    let carpa;
+    var loader = new GLTFLoader();
+    loader.load('models/carpa/scene.gltf', function (gltf) {
+        const model = gltf.scene
+        carpa = gltf.scene
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; }
+        } );
+        model.scale.set(0.1, 0.1, 0.1)
+        model.translateX(0.6)
+        model.translateY(-1.5)
+        model.translateZ(1.4)
+        scene.add(model)
+        const model2 = gltf.scene.clone();
+        model2.translateX(0.12);
+        model2.translateZ(0.22);
+        scene.add(model2);
+        const model3 = gltf.scene.clone();
+        model3.translateX(0.12);
+        model3.translateZ(-0.22);
+        scene.add(model3);
+        const model4 = gltf.scene.clone();
+        model4.translateX(0.12);
+        model4.translateZ(-0.22*2);
+        scene.add(model4);
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    // This work is based on "Daffy Duck" (https://sketchfab.com/3d-models/daffy-duck-57b3d5631e4649da907977353aece0c8) by SteveTheDragon (https://sketchfab.com/SteveTheDragon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    let daffy;
+    loader = new GLTFLoader();
+    loader.load('models/daffy/scene.gltf', function (gltf) {
+        const model = gltf.scene
+        carpa = gltf.scene
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; }
+        } );
+        model.scale.set(0.03, 0.03, 0.03)
+        model.translateX(0.6)
+        model.translateY(-1.37)
+        model.translateZ(1.4)
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
 
     // EVENTS
 
@@ -469,13 +561,6 @@ function render() {
     if (a >= 3000){
         a = a*-1;
     }
-    // for ( let i = 0; i < group.children.length; i ++ ) {
-
-    //     const child = group.children[ i ];
-    //     child.rotation.y += 0.005;
-
-    // }
-
     renderer.render( scene, camera );
 
 }
