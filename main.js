@@ -13,7 +13,10 @@ let camera, scene, renderer;
 let a = -3000;
 
 let particleLight;
-let group;
+let group; 
+let daffy;
+let animacionDaffy = false;
+var dir = -1;
 
 init();
 animate();
@@ -45,6 +48,7 @@ function init() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
+    document.addEventListener("keydown", onDocumentKeyDown, false);
 
     var light2 = new THREE.AmbientLight(0xffffff,1);
     group.add(light2);
@@ -504,11 +508,11 @@ function init() {
     });
 
     // This work is based on "Daffy Duck" (https://sketchfab.com/3d-models/daffy-duck-57b3d5631e4649da907977353aece0c8) by SteveTheDragon (https://sketchfab.com/SteveTheDragon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    let daffy;
+    // let daffy;
     loader = new GLTFLoader();
     loader.load('models/daffy/scene.gltf', function (gltf) {
         const model = gltf.scene
-        carpa = gltf.scene
+        daffy = gltf.scene
         gltf.scene.traverse( function( node ) {
             if ( node.isMesh ) { node.castShadow = true; }
         } );
@@ -516,6 +520,7 @@ function init() {
         model.translateX(0.6)
         model.translateY(-1.37)
         model.translateZ(1.4)
+        model.rotateY(-Math.PI/2);
         scene.add(model)
     }, undefined, function (error) {
     console.error(error)
@@ -545,6 +550,15 @@ function onWindowResize() {
 function animate() {
 
     requestAnimationFrame( animate );
+        if (animacionDaffy){
+        daffy.position.x += 0.001*dir;
+        if (daffy.position.x <= 0.4){
+            dir = 1;
+        }
+        if (daffy.position.x >= 0.6){
+            dir = -1;
+        }
+    }
 
     render();
 
@@ -565,3 +579,13 @@ function render() {
 
 }
 
+
+function onDocumentKeyDown(event) {
+    let paso = 0.1
+    let key = event.key;
+    switch (key) {
+      case "d":
+        animacionDaffy = !animacionDaffy
+        break
+    }
+  }
