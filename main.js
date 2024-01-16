@@ -11,11 +11,12 @@ class PrismGeometry extends THREE.ExtrudeGeometry {
 
 let camera, scene, renderer;
 let a = -3000;
+let itBus = -1400;
 
 let particleLight;
 let group; 
-let daffy;
-let animacionDaffy = false, moveSun= true;
+let daffy, bus;
+let animacionDaffy = false, moveSun= true, moveBus = false;
 var dir = -1;
 
 init();
@@ -539,10 +540,20 @@ function init() {
     cube.castShadow = true;
     group.add(cube);
 
-    // Calle
-    geometry = new THREE.BoxGeometry(5,0.00001,5);
-    geometry.translate(-0.19,-1.81,0.9);
-    material = new THREE.MeshToonMaterial( { color: 0xed7621 } );
+    // Vereda
+    geometry = new THREE.BoxGeometry(2.5,0.01,2.5);
+    geometry.translate(-0.15,-1.81,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xc9c7bf, map: textureCemento } );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    // cube.castShadow = true;
+    group.add(cube);
+
+    // Calles
+    geometry = new THREE.BoxGeometry(3.6,0.00001,4);
+    geometry.translate(-0.15,-1.82,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0x5e5d5a, map: textureCemento } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
@@ -592,9 +603,28 @@ function init() {
         } );
         model.scale.set(0.03, 0.03, 0.03)
         model.translateX(0.6)
-        model.translateY(-1.5)
+        model.translateY(-1.37)
         model.translateZ(1.4)
         model.rotateY(-Math.PI/2);
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    // This work is based on "LowPoly Bus" (https://sketchfab.com/3d-models/lowpoly-bus-5c8b8d30a37543feae428846484d316b) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    // let bus;
+    loader = new GLTFLoader();
+    loader.load('models/lowpoly_bus/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        bus = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.012, 0.012, 0.012)
+        model.translateX(-1.7)
+        model.translateY(-1.813)
+        model.translateZ(-0.5)
+        model.rotateY(Math.PI/2);
         scene.add(model)
     }, undefined, function (error) {
     console.error(error)
@@ -622,16 +652,25 @@ function onWindowResize() {
 }
 
 function animate() {
+    const timer = Date.now() * 0.00025;
 
     requestAnimationFrame( animate );
     if (animacionDaffy){
         daffy.position.x += 0.001*dir;
-        daffy.position.y = -1.37;
         if (daffy.position.x <= 0.4){
             dir = 1;
         }
         if (daffy.position.x >= 0.6){
             dir = -1;
+        }
+    }
+    if (moveBus){
+        bus.position.x += 0.01*( 1 + Math.sin(itBus*0.01));
+        console.log(itBus);
+        itBus += 1;
+        if (bus.position.x >= 1.65){
+            bus.position.x = -1.7;
+            itBus = -1000;
         }
     }
 
@@ -664,10 +703,13 @@ function onDocumentKeyDown(event) {
         case 's':
             moveSun = !moveSun;
             break;
+        case 'b':
+            moveBus = !moveBus;
+            bus.visible = moveBus;
+            break;
         case "d":
             animacionDaffy = !animacionDaffy;
-            daffy.position.x = 0.6;
-            daffy.position.y = -1.5;
+            daffy.visible = animacionDaffy;
             break;
     }
   }
