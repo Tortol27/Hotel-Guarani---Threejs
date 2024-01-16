@@ -11,12 +11,12 @@ class PrismGeometry extends THREE.ExtrudeGeometry {
 
 let camera, scene, renderer;
 let a = -3000;
-let itBus = -1400;
+let itBus = -1000;
 
 let particleLight;
 let group; 
-let daffy, bus;
-let animacionDaffy = false, moveSun= true, moveBus = false;
+let daffy, bus, hatch, hatch2, hatch3, kombi;
+let animacionDaffy = false, moveSun= true, moveTraffic = false;
 var dir = -1;
 
 init();
@@ -625,6 +625,81 @@ function init() {
         model.translateY(-1.813)
         model.translateZ(-0.5)
         model.rotateY(Math.PI/2);
+        model.visible = moveTraffic;
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    // This work is based on "LowPoly Hatch" (https://sketchfab.com/3d-models/lowpoly-hatch-e75d3a91e9df40f8b937b6f61837cef0) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    loader = new GLTFLoader();
+    loader.load('models/lowpoly_hatch/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        hatch = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(-1)
+        model.translateY(-1.82)
+        model.translateZ(-0.7)
+        model.rotateY(Math.PI/2);
+        model.visible = moveTraffic;
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    loader = new GLTFLoader();
+    loader.load('models/lowpoly_hatch2/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        hatch2 = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(1)
+        model.translateY(-1.82)
+        model.translateZ(-0.9)
+        model.visible = moveTraffic;
+        model.rotateY(Math.PI/2);
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    loader = new GLTFLoader();
+    loader.load('models/lowpoly_hatch2/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        hatch3 = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(1.55)
+        model.translateY(-1.82)
+        model.translateZ(2.35)
+        model.visible = moveTraffic;
+        model.rotateY(-Math.PI/2);
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    // This work is based on "VW Kombi 1969 LowPoly" (https://sketchfab.com/3d-models/vw-kombi-1969-lowpoly-f6a7b54ec6d24d8e95992f68be6c930c) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+    loader = new GLTFLoader();
+    loader.load('models/vw_kombi_1969_lowpoly/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        kombi = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(-1.6)
+        model.translateY(-1.82)
+        model.translateZ(-1)
+        model.visible = moveTraffic;
+        // model.rotateY(Math.PI/2);
         scene.add(model)
     }, undefined, function (error) {
     console.error(error)
@@ -664,19 +739,36 @@ function animate() {
             dir = -1;
         }
     }
-    if (moveBus){
+    if (moveTraffic){
         bus.position.x += 0.01*( 1 + Math.sin(itBus*0.01));
-        console.log(itBus);
         itBus += 1;
         if (bus.position.x >= 1.65){
             bus.position.x = -1.7;
             itBus = -1000;
         }
+        hatch.position.x += 0.01;
+        if (hatch.position.x >= 1.65){
+            hatch.position.x = -1.9;
+        }
+        hatch2.position.x += 0.015;
+        if (hatch2.position.x >= 1.65){
+            hatch2.position.x = -1.9;
+        }
+        hatch3.position.x -= 0.005;
+        if (hatch3.position.x <= -1.9){
+            hatch3.position.x = 1.65;
+        }
+        if (kombi.position.z <= 1.9){
+            kombi.position.z += 0.007;
+        }
+        if (hatch3.position.x >= 1  && kombi.position.z >= 1.9){
+            kombi.position.z += 0.008;
+            if (kombi.position.z >= 2.7){
+                kombi.position.z = -1;
+            }
+        }
     }
-
     render();
-
-    // stats.update();
 
 }
 
@@ -699,17 +791,23 @@ function render() {
 function onDocumentKeyDown(event) {
     let paso = 0.1
     let key = event.key;
+    
     switch (key) {
         case 's':
             moveSun = !moveSun;
             break;
-        case 'b':
-            moveBus = !moveBus;
-            bus.visible = moveBus;
+        case 't':
+            moveTraffic = !moveTraffic
             break;
-        case "d":
+        case 'd':
             animacionDaffy = !animacionDaffy;
-            daffy.visible = animacionDaffy;
             break;
     }
+    daffy.visible = animacionDaffy;
+    bus.visible = moveTraffic;
+    hatch.visible = moveTraffic;
+    hatch2.visible = moveTraffic;
+    kombi.visible = moveTraffic;
+    hatch3.visible = moveTraffic;
+    
   }

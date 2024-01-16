@@ -1,0 +1,11 @@
+Model Information:
+* title:	VW Kombi 1969 LowPoly
+* source:	https://sketchfab.com/3d-models/vw-kombi-1969-lowpoly-f6a7b54ec6d24d8e95992f68be6c930c
+* author:	Scuderia Morello (https://sketchfab.com/scudmorello)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "VW Kombi 1969 LowPoly" (https://sketchfab.com/3d-models/vw-kombi-1969-lowpoly-f6a7b54ec6d24d8e95992f68be6c930c) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
