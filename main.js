@@ -78,7 +78,7 @@ function init() {
     cube.receiveShadow = true;
     cube.castShadow = true;
     group.add(cube);
-
+    
     // Planta baja central
     geometry = new THREE.BoxGeometry(1.1,0.2,0.8); 
     geometry.translate(0.13,-1.7,0.9);
@@ -454,6 +454,7 @@ function init() {
     cube.castShadow = true;
     group.add(cube)
 
+    // Ventana arriba
     var geometry = new PrismGeometry( [ A, B1, C1,], height ); // utilizo para crear el prisma rectangular
     geometry.rotateX(Math.PI/2)
     geometry.scale(1.1,1.1,1.1);
@@ -465,9 +466,82 @@ function init() {
     cube.castShadow = true;
     group.add(cube)
 
+    // Ventana 1er Piso
+    geometry = new THREE.BoxGeometry(0.85,0.2,0.01); // atras
+    geometry.translate(-0.65,-1.5,-0.1);
+    textureVidrio3.repeat.x = 4;
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio3} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(1.9,0.17,0.01); // adelante
+    geometry.translate(-0.15,-1.5,1.81);
+    var textureVidrio4 = textureVidrio3.clone();
+    textureVidrio4.repeat.x = 6;
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio4} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.42,0.2,0.01); // izq 1
+    geometry.translate(-1,-1.5,-1.1);
+    geometry.rotateY(Math.PI/2);
+    var textureVidrio5 = textureVidrio3.clone();
+    textureVidrio5.repeat.x = 2;
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio5} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.2,0.2,0.01); // izq 2
+    geometry.translate(-0.4,-1.5,-1.1);
+    geometry.rotateY(Math.PI/2);
+    // textureVidrio3.repeat.x = 1;
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio5} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    // Ventanas Planta Baja
+    geometry = new THREE.BoxGeometry(0.01,0.2,0.8); // izq
+    geometry.translate(-1.,-1.7,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio3} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.01,0.2,0.8);  // der
+    geometry.translate(0.68,-1.7,0.9);
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio3} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
+    geometry = new THREE.BoxGeometry(0.4,0.2,0.01);  // frente
+    geometry.translate(-0.1,-1.7,1.3);
+    material = new THREE.MeshToonMaterial( { color: 0xdbd9d0, map: textureVidrio5} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    group.add(cube);
+
     // Calle
     geometry = new THREE.BoxGeometry(5,0.00001,5);
-    geometry.translate(-0.15,-1.81,0.9);
+    geometry.translate(-0.19,-1.81,0.9);
     material = new THREE.MeshToonMaterial( { color: 0xed7621 } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
@@ -550,7 +624,7 @@ function onWindowResize() {
 function animate() {
 
     requestAnimationFrame( animate );
-        if (animacionDaffy){
+    if (animacionDaffy){
         daffy.position.x += 0.001*dir;
         daffy.position.y = -1.37;
         if (daffy.position.x <= 0.4){
