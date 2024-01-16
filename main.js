@@ -54,10 +54,12 @@ function init() {
     var light2 = new THREE.AmbientLight(0xffffff,1);
     group.add(light2);
 
+    var textureloader = new THREE.TextureLoader();
+
     // Terraza
     geometry = new THREE.BoxGeometry(2.3,0.05,2.3);
     geometry.translate(-0.15,-1.4,0.9);
-    const textureCemento = new THREE.TextureLoader().load('textures/cemento.jpg' );
+    const textureCemento = textureloader.load('textures/cemento.jpg' );
     textureCemento.wrapS = THREE.RepeatWrapping;
     textureCemento.wrapT = THREE.RepeatWrapping;
     textureCemento.repeat.x = 4;
@@ -110,7 +112,7 @@ function init() {
 
     geometry = new THREE.ConeGeometry(0.45,0.15,3,1) // Tragaluz
     geometry.translate(-0.85,-1.3,0.85);
-    const textureVidrio2 = new THREE.TextureLoader().load('textures/glass2.jpg' );
+    const textureVidrio2 = textureloader.load('textures/glass2.jpg' );
     textureVidrio2.wrapS = THREE.RepeatWrapping;
     textureVidrio2.wrapT = THREE.RepeatWrapping;
     textureVidrio2.repeat.x = 4;
@@ -330,7 +332,7 @@ function init() {
     geometry.rotateX(Math.PI/2);
     geometry.scale(1.35,1.35,1.35);
     geometry.translate(2.1,0.29,0.1);
-    const textureVentanas = new THREE.TextureLoader().load('textures/test_ventanas.jpg' );
+    const textureVentanas = textureloader.load('textures/test_ventanas.jpg' );
     textureVentanas.wrapS = THREE.RepeatWrapping;
     textureVentanas.wrapT = THREE.RepeatWrapping;
     textureVentanas.repeat.x = 7;
@@ -374,7 +376,7 @@ function init() {
     geometry.scale(1.35,1.35,1.35);
     geometry.translate(2.1,0.29,0.1);
     // geometry.rotateY(Math.PI)
-    const textureVidrio = new THREE.TextureLoader().load('textures/glass.jpg' );
+    const textureVidrio = textureloader.load('textures/glass.jpg' );
     textureVidrio.wrapS = THREE.RepeatWrapping;
     textureVidrio.wrapT = THREE.RepeatWrapping;
     textureVidrio.repeat.x = 7;
@@ -398,7 +400,7 @@ function init() {
     
     var geometry = new THREE.BoxGeometry(0.3,0.07,0.01); // Ventana de atras
     geometry.translate(2.1,0.24,0.079);
-    const textureVidrio3 = new THREE.TextureLoader().load('textures/glass.jpg' );
+    const textureVidrio3 = textureloader.load('textures/glass.jpg' );
     textureVidrio3.wrapS = THREE.RepeatWrapping;
     textureVidrio3.wrapT = THREE.RepeatWrapping;
     textureVidrio3.repeat.x = 2;
@@ -593,8 +595,6 @@ function init() {
     });
 
     // This work is based on "Daffy Duck" (https://sketchfab.com/3d-models/daffy-duck-57b3d5631e4649da907977353aece0c8) by SteveTheDragon (https://sketchfab.com/SteveTheDragon) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    // let daffy;
-    loader = new GLTFLoader();
     loader.load('models/daffy/scene.gltf', function (gltf) {
         const model = gltf.scene;
         daffy = gltf.scene;
@@ -612,8 +612,6 @@ function init() {
     });
 
     // This work is based on "LowPoly Bus" (https://sketchfab.com/3d-models/lowpoly-bus-5c8b8d30a37543feae428846484d316b) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    // let bus;
-    loader = new GLTFLoader();
     loader.load('models/lowpoly_bus/scene.gltf', function (gltf) {
         const model = gltf.scene;
         bus = gltf.scene;
@@ -632,7 +630,6 @@ function init() {
     });
 
     // This work is based on "LowPoly Hatch" (https://sketchfab.com/3d-models/lowpoly-hatch-e75d3a91e9df40f8b937b6f61837cef0) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    loader = new GLTFLoader();
     loader.load('models/lowpoly_hatch/scene.gltf', function (gltf) {
         const model = gltf.scene;
         hatch = gltf.scene;
@@ -650,7 +647,6 @@ function init() {
     console.error(error)
     });
 
-    loader = new GLTFLoader();
     loader.load('models/lowpoly_hatch2/scene.gltf', function (gltf) {
         const model = gltf.scene;
         hatch2 = gltf.scene;
@@ -668,7 +664,6 @@ function init() {
     console.error(error)
     });
 
-    loader = new GLTFLoader();
     loader.load('models/lowpoly_hatch2/scene.gltf', function (gltf) {
         const model = gltf.scene;
         hatch3 = gltf.scene;
@@ -687,7 +682,6 @@ function init() {
     });
 
     // This work is based on "VW Kombi 1969 LowPoly" (https://sketchfab.com/3d-models/vw-kombi-1969-lowpoly-f6a7b54ec6d24d8e95992f68be6c930c) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
-    loader = new GLTFLoader();
     loader.load('models/vw_kombi_1969_lowpoly/scene.gltf', function (gltf) {
         const model = gltf.scene;
         kombi = gltf.scene;
