@@ -11,11 +11,11 @@ class PrismGeometry extends THREE.ExtrudeGeometry {
 
 let camera, scene, renderer;
 let a = -3000;
-let itBus = -1000;
+let itBus = -1000, itBus2 = -1000;
 
 let particleLight;
 let group; 
-let daffy, bus, hatch, hatch2, hatch3, kombi;
+let daffy, bus, bus2, hatch, hatch2, hatch3, kombi;
 let animacionDaffy = false, moveSun= true, moveTraffic = false;
 var dir = -1;
 
@@ -588,7 +588,14 @@ function init() {
     cube2.translateX(0.3);
     cube2.translateZ(-1.82);
     group.add(cube2);
+
+    var cube3 = cube.clone();
+    cube3.translateZ(-2.3);
+    group.add(cube3);
     
+    var cube4 = cube2.clone();
+    cube4.translateZ(-2.3);
+    group.add(cube4);
 
     // Modelos 3D
 
@@ -629,10 +636,10 @@ function init() {
         gltf.scene.traverse( function( node ) {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
-        model.scale.set(0.03, 0.03, 0.03)
-        model.translateX(0.6)
-        model.translateY(-1.37)
-        model.translateZ(1.4)
+        model.scale.set(0.03, 0.03, 0.03);
+        model.translateX(0.6);
+        model.translateY(-1.37);
+        model.translateZ(1.4);
         model.rotateY(-Math.PI/2);
         model.visible = animacionDaffy;
         scene.add(model)
@@ -647,11 +654,28 @@ function init() {
         gltf.scene.traverse( function( node ) {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
-        model.scale.set(0.012, 0.012, 0.012)
-        model.translateX(-1.7)
-        model.translateY(-1.813)
-        model.translateZ(-0.5)
+        model.scale.set(0.012, 0.012, 0.012);
+        model.translateX(-1.7);
+        model.translateY(-1.813);
+        model.translateZ(-0.5);
         model.rotateY(Math.PI/2);
+        model.visible = moveTraffic;
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
+    loader.load('models/lowpoly_bus/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        bus2 = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.012, 0.012, 0.012);
+        model.translateX(1.5);
+        model.translateY(-1.813);
+        model.translateZ(2.75);
+        model.rotateY(-Math.PI/2);
         model.visible = moveTraffic;
         scene.add(model)
     }, undefined, function (error) {
@@ -666,9 +690,9 @@ function init() {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.05, 0.05, 0.05);
-        model.translateX(-1)
-        model.translateY(-1.82)
-        model.translateZ(-0.7)
+        model.translateX(-1);
+        model.translateY(-1.82);
+        model.translateZ(-0.7);
         model.rotateY(Math.PI/2);
         model.visible = moveTraffic;
         scene.add(model)
@@ -683,9 +707,9 @@ function init() {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.05, 0.05, 0.05);
-        model.translateX(1)
-        model.translateY(-1.82)
-        model.translateZ(-0.9)
+        model.translateX(1);
+        model.translateY(-1.82);
+        model.translateZ(-0.9);
         model.visible = moveTraffic;
         model.rotateY(Math.PI/2);
         scene.add(model)
@@ -700,9 +724,9 @@ function init() {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.05, 0.05, 0.05);
-        model.translateX(1.55)
-        model.translateY(-1.82)
-        model.translateZ(2.35)
+        model.translateX(1.55);
+        model.translateY(-1.82);
+        model.translateZ(2.35);
         model.visible = moveTraffic;
         model.rotateY(-Math.PI/2);
         scene.add(model)
@@ -718,9 +742,9 @@ function init() {
             if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
         } );
         model.scale.set(0.05, 0.05, 0.05);
-        model.translateX(-1.6)
-        model.translateY(-1.82)
-        model.translateZ(-1)
+        model.translateX(-1.6);
+        model.translateY(-1.82);
+        model.translateZ(-1);
         model.visible = moveTraffic;
         // model.rotateY(Math.PI/2);
         scene.add(model)
@@ -769,6 +793,12 @@ function animate() {
             bus.position.x = -1.7;
             itBus = -1000;
         }
+        bus2.position.x -= 0.01*( 1 + Math.sin(itBus2*0.01));;
+        itBus2 += 1;
+        if (bus2.position.x <= -1.9){
+            bus2.position.x = 1.5;
+            itBus2 = -1000;
+        }
         hatch.position.x += 0.01;
         if (hatch.position.x >= 1.65){
             hatch.position.x = -1.9;
@@ -784,8 +814,8 @@ function animate() {
         if (kombi.position.z <= 1.8){
             kombi.position.z += 0.007;
         }
-        if (hatch3.position.x >= 1  && kombi.position.z >= 1.8){
-            kombi.position.z += 0.008;
+        if (hatch3.position.x >= 1  && bus2.position.x >= -1  && kombi.position.z >= 1.8){
+            kombi.position.z += 0.01;
             if (kombi.position.z >= 2.7){
                 kombi.position.z = -1;
             }
@@ -828,6 +858,7 @@ function onDocumentKeyDown(event) {
     }
     daffy.visible = animacionDaffy;
     bus.visible = moveTraffic;
+    bus2.visible = moveTraffic;
     hatch.visible = moveTraffic;
     hatch2.visible = moveTraffic;
     kombi.visible = moveTraffic;
