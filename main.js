@@ -35,7 +35,7 @@ function init() {
 
     // LIGHTS
     particleLight = new THREE.Mesh(
-        new THREE.SphereGeometry( .05, 8, 8 ),
+        new THREE.SphereGeometry( .4, 16, 16 ),
         new THREE.MeshBasicMaterial( { color: 0xffffff } )
     );
     scene.add( particleLight );
@@ -389,8 +389,9 @@ function init() {
     textureVidrio.repeat.x = 7;
     textureVidrio.repeat.y = 4;
     textureVidrio.repeat.z = 4;
-    var material = new THREE.MeshToonMaterial( { color: 0x3dd3eb, map: textureVidrio } );
+    var material = new THREE.MeshToonMaterial( { color: 0x3dd3eb, map: textureVidrio, transparent: true } );
     material.shading = THREE.SmoothShading;
+    material.opacity = 0.95;
     var cube = new THREE.Mesh( geometry, material );
     cube.receiveShadow = true;
     cube.castShadow = true;
@@ -804,7 +805,7 @@ function animate() {
         }
     }
     if (moveTraffic){
-        bus.position.x += 0.01*( 1 + Math.sin(itBus*0.01));
+        bus.position.x += 0.012*( 1 + Math.sin(itBus*0.01));
         itBus += 1;
         if (bus.position.x >= 1.65){
             bus.position.x = -1.7;
