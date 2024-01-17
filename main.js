@@ -15,7 +15,7 @@ let itBus = -1000, itBus2 = -1000;
 
 let particleLight;
 let group; 
-let daffy, bus, bus2, hatch, hatch2, hatch3, kombi;
+let daffy, bus, bus2, hatch, hatch2, hatch3, kombi, kombi2;
 let animacionDaffy = false, moveSun= true, moveTraffic = false;
 var dir = -1;
 
@@ -752,6 +752,23 @@ function init() {
     console.error(error)
     });
 
+    loader.load('models/vw_kombi_1969_lowpoly/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        kombi2 = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow =true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(-1.9);
+        model.translateY(-1.813);
+        model.translateZ(2.55);
+        model.visible = moveTraffic;
+        model.rotateY(-Math.PI/2);
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
     // EVENTS
 
     const controls = new OrbitControls( camera, renderer.domElement );
@@ -811,10 +828,14 @@ function animate() {
         if (hatch3.position.x <= -1.9){
             hatch3.position.x = 1.65;
         }
+        kombi2.position.x -= 0.006;
+        if (kombi2.position.x <= -1.9){
+            kombi2.position.x = 1.65;
+        }
         if (kombi.position.z <= 1.8){
             kombi.position.z += 0.007;
         }
-        if (hatch3.position.x >= 1  && bus2.position.x >= -1  && kombi.position.z >= 1.8){
+        if (hatch3.position.x >= 1  && bus2.position.x >= -1.5 && kombi2.position.x >= -1 && kombi.position.z >= 1.8){
             kombi.position.z += 0.01;
             if (kombi.position.z >= 2.7){
                 kombi.position.z = -1;
@@ -862,6 +883,7 @@ function onDocumentKeyDown(event) {
     hatch.visible = moveTraffic;
     hatch2.visible = moveTraffic;
     kombi.visible = moveTraffic;
+    kombi2.visible = moveTraffic;
     hatch3.visible = moveTraffic;
     
   }
