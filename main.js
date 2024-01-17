@@ -123,13 +123,18 @@ function init() {
     cube.castShadow = true;
     group.add(cube);
 
-    geometry = new THREE.BoxGeometry(0.7,0.01,0.55); // Piscina
-    geometry.translate(-0.65,-1.37,1.6);
-    material = new THREE.MeshToonMaterial( { color: 0xff110 } );
+    geometry = new THREE.BoxGeometry(0.8,0.01,0.65); // Piscina
+    geometry.translate(-0.74,-1.37,1.51);
+    var texturePool = textureloader.load('textures/pool.png' );
+    texturePool.wrapS = THREE.RepeatWrapping;
+    texturePool.wrapT = THREE.RepeatWrapping;
+    // texturePool.repeat.x = 3;
+    material = new THREE.MeshToonMaterial( { color: 0xffffff ,map: texturePool, transparent: true} );
+    // material = new THREE.MeshToonMaterial( { color: 0xff110 } );
     material.shading = THREE.SmoothShading;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
-    cube.castShadow = true;
+    // cube.castShadow = true;
     group.add(cube);
 
     // Pilares
@@ -561,6 +566,27 @@ function init() {
     cube.receiveShadow = true;
     // cube.castShadow = true;
     group.add(cube);
+    
+    // Franjas peatonales
+    geometry = new THREE.BoxGeometry(0.5,0.00001,0.2);
+    geometry.translate(-1.67,-1.819,2.05);
+    var textureFranja = textureloader.load('textures/franja.png' );
+    textureFranja.wrapS = THREE.RepeatWrapping;
+    textureFranja.wrapT = THREE.RepeatWrapping;
+    textureFranja.repeat.x = 3;
+    material = new THREE.MeshToonMaterial( { map: textureFranja, transparent: true} );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    // cube.castShadow = true;
+    group.add(cube);
+
+    var cube2 = cube.clone();
+    cube2.rotateY(Math.PI);
+    cube2.translateX(0.3);
+    cube2.translateZ(-1.82);
+    group.add(cube2);
+    
 
     // Modelos 3D
 
@@ -752,10 +778,10 @@ function animate() {
         if (hatch3.position.x <= -1.9){
             hatch3.position.x = 1.65;
         }
-        if (kombi.position.z <= 1.9){
+        if (kombi.position.z <= 1.8){
             kombi.position.z += 0.007;
         }
-        if (hatch3.position.x >= 1  && kombi.position.z >= 1.9){
+        if (hatch3.position.x >= 1  && kombi.position.z >= 1.8){
             kombi.position.z += 0.008;
             if (kombi.position.z >= 2.7){
                 kombi.position.z = -1;
