@@ -116,14 +116,16 @@ function init() {
     textureVidrio2.wrapS = THREE.RepeatWrapping;
     textureVidrio2.wrapT = THREE.RepeatWrapping;
     textureVidrio2.repeat.x = 4;
-    material = new THREE.MeshToonMaterial( { color: 0x3dd3eb, map: textureVidrio2 } );
+    material = new THREE.MeshToonMaterial( { color: 0x3dd3eb, map: textureVidrio2, transparent: true } );
+    material.opacity = 0.95;
     material.shading = THREE.SmoothShading;
+    material.shadowSide = THREE.FrontSide;
     cube = new THREE.Mesh(geometry, material);
     cube.receiveShadow = true;
     cube.castShadow = true;
     group.add(cube);
 
-    geometry = new THREE.BoxGeometry(0.8,0.01,0.65); // Piscina
+    geometry = new THREE.BoxGeometry(0.8,0.001,0.65); // Piscina
     geometry.translate(-0.74,-1.37,1.51);
     var texturePool = textureloader.load('textures/pool.png' );
     texturePool.wrapS = THREE.RepeatWrapping;
@@ -632,6 +634,7 @@ function init() {
         model.translateY(-1.37)
         model.translateZ(1.4)
         model.rotateY(-Math.PI/2);
+        model.visible = animacionDaffy;
         scene.add(model)
     }, undefined, function (error) {
     console.error(error)
