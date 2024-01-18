@@ -19,6 +19,9 @@ let daffy, bus, bus2, hatch, hatch2, hatch3, kombi, kombi2;
 let animacionDaffy = false, moveSun= true, moveTraffic = false;
 var dir = -1;
 
+var showEasterEgg = false;
+var eeGroup;
+
 init();
 animate();
 
@@ -770,6 +773,29 @@ function init() {
     console.error(error)
     });
 
+    scene.traverse( function( object ) {
+        if ( object.material ) object.needsUpdate = true;
+        if ( object.texture ) object.needsUpdate = true;
+    } );
+
+    eeGroup = new THREE.Group();
+
+    geometry = new THREE.BoxGeometry(0.6,0.001,0.7);
+    geometry.translate(0.1,0.485,0.6);
+    var texturePool = textureloader.load('textures/logo-guarani.png' );
+    texturePool.wrapS = THREE.RepeatWrapping;
+    texturePool.wrapT = THREE.RepeatWrapping;
+    // texturePool.repeat.x = 3;
+    material = new THREE.MeshToonMaterial( { color: 0xffffff ,map: texturePool, transparent: true} );
+    // material = new THREE.MeshToonMaterial( { color: 0xff110 } );
+    material.shading = THREE.SmoothShading;
+    cube = new THREE.Mesh(geometry, material);
+    cube.receiveShadow = true;
+    // cube.castShadow = true;
+    eeGroup.add(cube);
+
+    easterEgg();
+
     // EVENTS
 
     const controls = new OrbitControls( camera, renderer.domElement );
@@ -847,6 +873,29 @@ function animate() {
 
 }
 
+function easterEgg() {
+    var light = new THREE.SpotLight( 0xffff00, 0.8, 40, 0.7, 1 );
+    light.position.set(0.7, -1.8, 1.85);
+    light.target.position.set(light.position.x, 0, light.position.z);
+    var target = light.target;
+    light.castShadow = true;
+    eeGroup.add(light.target);
+    eeGroup.add(light);
+
+    for (let i = 1; i < 6; i++) {
+        var light2 = light.clone();
+        var target2 = target.clone();
+        light2.translateX(-i / 3);
+        target2.translateX(-i / 3);
+        light2.target = target2;
+        eeGroup.add(light2);
+        eeGroup.add(target2);
+    }
+
+    eeGroup.visible = showEasterEgg;
+    scene.add(eeGroup);
+}
+
 function render() {
 
     if (moveSun){
@@ -877,6 +926,8 @@ function onDocumentKeyDown(event) {
         case 'd':
             animacionDaffy = !animacionDaffy;
             break;
+        case 'g':
+            showEasterEgg = !showEasterEgg;
     }
     daffy.visible = animacionDaffy;
     bus.visible = moveTraffic;
@@ -886,5 +937,5 @@ function onDocumentKeyDown(event) {
     kombi.visible = moveTraffic;
     kombi2.visible = moveTraffic;
     hatch3.visible = moveTraffic;
-    
+    eeGroup.visible = showEasterEgg;
   }
