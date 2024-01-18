@@ -18,7 +18,7 @@ Right Click & Drag -> Rotar la camara
 Left Click & Drag -> Mover la posicion de la camara
 Mouse Wheel -> Zoom
 
-s --> Toggle movimiento del sol
-t --> Toggle animacion de trafico
-d --> Toggle animacion Daffy Duck
+s --> Toggle movimiento del sol\
+t --> Toggle animacion de trafico\
+d --> Toggle animacion Daffy Duck\
 g --> Toggle luces spotlight
