@@ -14,8 +14,8 @@ No requiere ninguna dependencia
 Se debe lanzar un servidor web, que puede ser local. VS Code permite hacerlo mediante la vista previa de `index.html` o la extension Live Preview.
 
 ## Controles
-Right Click & Drag -> Rotar la camara
-Left Click & Drag -> Mover la posicion de la camara
+Right Click & Drag -> Rotar la camara\
+Left Click & Drag -> Mover la posicion de la camara\
 Mouse Wheel -> Zoom
 
 s --> Toggle movimiento del sol\
