@@ -22,6 +22,11 @@ var dir = -1;
 var showEasterEgg = false;
 var eeGroup;
 
+let hatch_final;
+let hf_start_x = 0.5, hf_start_y = -1.81, hf_start_z = 1.55;
+let hf_speed = 0.01;
+let hf_state = 0;   // 0 = saliendo, 1 = manejando sobre la calle
+
 init();
 animate();
 
@@ -738,6 +743,23 @@ function init() {
     console.error(error)
     });
 
+    loader.load('models/lowpoly_hatch2/scene.gltf', function (gltf) {
+        const model = gltf.scene;
+        hatch_final = gltf.scene;
+        gltf.scene.traverse( function( node ) {
+            if ( node.isMesh ) { node.castShadow = true; node.receiveShadow = true; }
+        } );
+        model.scale.set(0.05, 0.05, 0.05);
+        model.translateX(hf_start_x);
+        model.translateY(hf_start_y);
+        model.translateZ(hf_start_z);
+        model.visible = moveTraffic;
+        model.rotateY(Math.PI/2);
+        scene.add(model)
+    }, undefined, function (error) {
+    console.error(error)
+    });
+
     // This work is based on "VW Kombi 1969 LowPoly" (https://sketchfab.com/3d-models/vw-kombi-1969-lowpoly-f6a7b54ec6d24d8e95992f68be6c930c) by Scuderia Morello (https://sketchfab.com/scudmorello) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
     loader.load('models/vw_kombi_1969_lowpoly/scene.gltf', function (gltf) {
         const model = gltf.scene;
@@ -868,6 +890,28 @@ function animate() {
                 kombi.position.z = -1;
             }
         }
+
+        // Pequeña máquina de estados
+        console.log(hf_state);
+        console.log(hatch_final.position);
+        if (hf_state == 0) {
+            hatch_final.position.x += hf_speed;
+
+            if (hatch_final.position.y == -1.81 && hatch_final.position.x >= 1.15) {
+                hatch_final.position.y -= 0.01;
+            }
+        } else {
+            hatch_final.position.z -= hf_speed;
+        }
+
+        if (hf_state == 0 && hatch_final.position.x >= 1.25) {
+            hf_state = 1;
+            hatch_final.rotateY(Math.PI/2);
+        }
+        if (hatch_final.position.z <= -1.15) {
+            hatch_final.rotateY(-Math.PI/2);
+            resetHatchFinal();
+        }
     }
     render();
 
@@ -894,6 +938,13 @@ function easterEgg() {
 
     eeGroup.visible = showEasterEgg;
     scene.add(eeGroup);
+}
+
+function resetHatchFinal() {
+    hatch_final.position.x = hf_start_x;
+    hatch_final.position.y = hf_start_y;
+    hatch_final.position.z = hf_start_z;
+    hf_state = 0;
 }
 
 function render() {
@@ -937,5 +988,6 @@ function onDocumentKeyDown(event) {
     kombi.visible = moveTraffic;
     kombi2.visible = moveTraffic;
     hatch3.visible = moveTraffic;
+    hatch_final.visible = moveTraffic;
     eeGroup.visible = showEasterEgg;
   }
