@@ -18,6 +18,11 @@ let group;
 let daffy, bus, bus2, hatch, hatch2, hatch3, kombi, kombi2;
 let animacionDaffy = false, moveSun= true, moveTraffic = false;
 var dir = -1;
+let flag;
+let clock = new THREE.Clock();
+let v = new THREE.Vector3();
+var groupFlag = new THREE.Group();
+
 
 var showEasterEgg = false;
 var eeGroup;
@@ -731,9 +736,9 @@ function init() {
         model.translateX(1.55);
         model.translateY(-1.82);
         model.translateZ(2.35);
-        model.visible = moveTraffic;
+        // model.visible = moveTraffic;
         model.rotateY(-Math.PI/2);
-        scene.add(model)
+        scene.add(model);
     }, undefined, function (error) {
     console.error(error)
     });
@@ -796,10 +801,30 @@ function init() {
 
     easterEgg();
 
+    
+    // Modificacion examen Final, Agregar una bandera flameante a cualquier auto
+    var geometry =  new THREE.PlaneGeometry(0.12,0.1,50,30);
+    geometry.rotateX(-Math.PI/2);
+    geometry.translate(1.66, -1.75, 2.35);
+    const cerro = textureloader.load('textures/cerro.png' );
+    cerro.wrapS = THREE.RepeatWrapping;
+    cerro.wrapT = THREE.RepeatWrapping;
+    var material = new THREE.MeshToonMaterial({map: cerro, castShadow: true, receiveShadow: true});
+    flag = new THREE.Mesh(geometry, material);
+    // hatch3.add(flag);
+    // scene.add(flag);
+    flag.rotation.set(0, 0, 0);
+
+
+    groupFlag.add(flag);
+    scene.add(groupFlag);
+    groupFlag.translateY(-1.75);
+
+
     // EVENTS
 
     const controls = new OrbitControls( camera, renderer.domElement );
-    controls.minDistance = 3;
+    controls.minDistance = 1;
     controls.maxDistance = 30;
 
     window.addEventListener( 'resize', onWindowResize );
@@ -831,6 +856,7 @@ function animate() {
         }
     }
     if (moveTraffic){
+        
         bus.position.x += 0.012*( 1 + Math.sin(itBus*0.01));
         itBus += 1;
         if (bus.position.x >= 1.65){
@@ -852,8 +878,10 @@ function animate() {
             hatch2.position.x = -1.9;
         }
         hatch3.position.x -= 0.005;
+        flag.position.x -= 0.005;
         if (hatch3.position.x <= -1.9){
             hatch3.position.x = 1.65;
+            flag.position.x = 0.12;
         }
         kombi2.position.x -= 0.006;
         if (kombi2.position.x <= -1.9){
@@ -869,6 +897,8 @@ function animate() {
             }
         }
     }
+    let t = clock.getElapsedTime();
+    waveFlag(t,v);
     render();
 
 }
@@ -894,6 +924,19 @@ function easterEgg() {
 
     eeGroup.visible = showEasterEgg;
     scene.add(eeGroup);
+}
+
+function waveFlag(t, v){
+    
+    for (let i = 0; i < flag.geometry.attributes.position.count; i++){
+        v.fromBufferAttribute(flag.geometry.attributes.position, i);
+        const wavex1 = 0.0005 * Math.sin(v.x * 2 * t);
+        const wavex2 = 0.0025 * Math.sin(v.x * 3 * t * 2);
+        const wavex3 = 0.005 * Math.sin(v.y * t);
+  
+        flag.geometry.attributes.position.setY(i, wavex1 + wavex2 + wavex3)
+      }
+      flag.geometry.attributes.position.needsUpdate = true;
 }
 
 function render() {
